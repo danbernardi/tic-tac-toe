@@ -10,19 +10,30 @@ export class Play extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      row: null,
-      column: null
+      row: 0,
+      column: 0
     };
   }
 
+  componentDidUpdate (prevProps) {
+    const board = this.props.game.get('board');
+    const prevBoard = prevProps.game.get('board');
+    // if (prevBoard !== board) {
+    //   if ()
+    // }
+  }
+
   submitMove() {
-    const { dispatch } = this.props;
+    const { dispatch, game } = this.props;
     const { row, column } = this.state;
+    const board = game.get('board');
 
-    if (row && column) {
-      dispatch(move(row, column));
-
-      // TODO: Determine win or stalemate
+    if (row !== null && column !== null) {
+      if (game.getIn(['board', row, column])) {
+        alert('That square has already been selected. Try again.')
+      } else {
+        dispatch(move(row, column));
+      }
     } else {
       alert('You need to pick a row and column before you can move!');
     }
