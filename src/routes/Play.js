@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { map } from 'react-immutable-proptypes';
 import { func } from 'prop-types';
 
-import { move } from 'redux/actions';
+import { move, rematch } from 'redux/actions';
 import CoreLayout from 'containers/CoreLayout';
 import { fromJS } from '../../node_modules/immutable';
 import './Play.css';
@@ -12,11 +12,11 @@ export class Play extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      row: 0,
-      column: 0
+      gameWon: false
     };
 
     this.symbols = ['X', 'O'];
+    this.rematch = this.rematch.bind(this);
   }
 
   validateWinCondition (arr) {
@@ -35,22 +35,23 @@ export class Play extends React.Component {
       [rows.getIn([0, 0]), rows.getIn([1, 1]), rows.getIn([2, 2])],
       [rows.getIn([0, 2]), rows.getIn([1, 1]), rows.getIn([2, 0])]
     ]);
+    
 
     // row win condition
     if (this.validateWinCondition(rows)) {
-      console.log(`${winningPlayer} row victory!`);
+      return 'row';
 
     // column win condition
     } else if (this.validateWinCondition(columns)) {
-      console.log(`${winningPlayer} column victory!`);
+      return 'column';
 
     // diagonal win condition
     } else if (this.validateWinCondition(diagonals)) {
-      console.log(`${winningPlayer} diagonal victory!`);
+      return 'diagonal';
 
     // stalemate condition
     } else if (rows.every((row) => row.every(a => a !== null))) {
-      console.log('stalemate!');
+      return 'stalemate';
     }
 
     return false;
@@ -61,19 +62,22 @@ export class Play extends React.Component {
     const prevBoard = prevProps.game.get('board');
 
     if (prevBoard !== board) {
-      this.checkForEndGameCondition(prevProps.game.getIn(['players', prevProps.game.get('currentPlayerIndex')]));
+      const winStatus = this.checkForEndGameCondition(prevProps.game.getIn(['players', prevProps.game.get('currentPlayerIndex')]));
+      if (winStatus) {
+        this.setState({ gameWon: winStatus });
+      }
     }
   }
 
   submitMove(row, column) {
     const { dispatch, game } = this.props;
+    const { gameWon } = this.state;
     if (row !== null && column !== null) {
 
       // prevent player from selecting a square that is already used
       if (game.getIn(['board', row, column])) {
         alert('That square has already been selected. Try again.')
-      } else {
-        this.setState({ row, column });
+      } else if (!gameWon) {
         dispatch(move(row, column));
       }
 
@@ -82,24 +86,50 @@ export class Play extends React.Component {
     }
   }
 
+  rematch () {
+    const { dispatch } = this.props;
+
+    dispatch(rematch());
+    this.setState({ gameWon: false });
+  }
+
   render () {
     const { game } = this.props;
+    const { gameWon } = this.state;
 
     const players = game.get('players');
     const rows = game.get('board');
-    const boardCellNumber = 3;
 
     return (
       <CoreLayout>
-        <div>
-          <h2>{ players.get(0) } vs. { players.get(1) }</h2>
-          <p>{ `${players.get(game.get('currentPlayerIndex'))}'s turn` }</p>
+        <div style={ { width: '100%' } }>
+          { gameWon
+            ? <div className="board__heading">
+              <h4 className="mb2">
+                { gameWon === 'stalemate'
+                  ? 'Whoops. Nobody won that one.'
+                  : <span>
+                      <strong>{ players.get(game.get('currentPlayerIndex')) }</strong>&nbsp;
+                      has won the game with a { gameWon } victory!
+                    </span>
+                }
+              </h4>
+              <button className="btn mb5" onClick={ this.rematch }>Rematch!</button>
+            </div>
+
+            : <div className="board__heading">
+              <h2 className="mb2">{ players.get(0) } vs. { players.get(1) }</h2>
+              <p>{ `${players.get(game.get('currentPlayerIndex'))}'s turn` }</p>
+            </div>
+          }
+
           <div className="board">
             { rows.flatten().map((row, index) => (
               <div
                 key={ index }
+                className={ row ? 'played' : '' }
                 onClick={ () => this.submitMove(Math.floor(index / rows.size), index % rows.size) }
-              >{ row }</div>
+              ><span>{ row }</span></div>
             )) }
           </div>
         </div>
