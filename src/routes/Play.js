@@ -5,6 +5,7 @@ import { func } from 'prop-types';
 
 import { move } from 'redux/actions';
 import CoreLayout from 'containers/CoreLayout';
+import { fromJS } from '../../node_modules/immutable';
 
 export class Play extends React.Component {
   constructor (props) {
@@ -13,14 +14,54 @@ export class Play extends React.Component {
       row: 0,
       column: 0
     };
+
+    this.symbols = ['X', 'O'];
+  }
+
+  validateWinCondition (arr) {
+    return arr.findIndex((row) => row.every(a => a !== null && a === row.get(0))) !== -1
+  }
+
+  checkForEndGameCondition (winningPlayer) {
+    const { game } = this.props;
+    const rows = game.get('board');
+
+    const columns = rows.map((row, index, arr) => {
+      return fromJS([arr.getIn([0, index]), arr.getIn([1, index]), arr.getIn([2, index])]);
+    });
+
+    const diagonals = fromJS([
+      [rows.getIn([0, 0]), rows.getIn([1, 1]), rows.getIn([2, 2])],
+      [rows.getIn([0, 2]), rows.getIn([1, 1]), rows.getIn([2, 0])]
+    ]);
+
+    // row win condition
+    if (this.validateWinCondition(rows)) {
+      console.log(`${winningPlayer} row victory!`);
+
+    // column win condition
+    } else if (this.validateWinCondition(columns)) {
+      console.log(`column victory!`);
+
+    // diagonal win condition
+    } else if (this.validateWinCondition(diagonals)) {
+      console.log(`diagonal victory!`);
+
+    // stalemate condition
+    } else if (rows.reduce((acc, row) => row.every(a => a !== null))) {
+      console.log('statemate!');
+    }
+
+    return false;
   }
 
   componentDidUpdate (prevProps) {
     const board = this.props.game.get('board');
     const prevBoard = prevProps.game.get('board');
-    // if (prevBoard !== board) {
-    //   if ()
-    // }
+
+    if (prevBoard !== board) {
+      this.checkForEndGameCondition(prevProps.game.getIn(['players', prevProps.game.get('currentPlayerIndex')]));
+    }
   }
 
   submitMove() {
@@ -29,11 +70,14 @@ export class Play extends React.Component {
     const board = game.get('board');
 
     if (row !== null && column !== null) {
+
+      // prevent player from selecting a square that is already used
       if (game.getIn(['board', row, column])) {
         alert('That square has already been selected. Try again.')
       } else {
         dispatch(move(row, column));
       }
+
     } else {
       alert('You need to pick a row and column before you can move!');
     }
