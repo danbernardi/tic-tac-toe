@@ -6,6 +6,7 @@ import { func } from 'prop-types';
 import { move } from 'redux/actions';
 import CoreLayout from 'containers/CoreLayout';
 import { fromJS } from '../../node_modules/immutable';
+import './Play.css';
 
 export class Play extends React.Component {
   constructor (props) {
@@ -41,11 +42,11 @@ export class Play extends React.Component {
 
     // column win condition
     } else if (this.validateWinCondition(columns)) {
-      console.log(`column victory!`);
+      console.log(`${winningPlayer} column victory!`);
 
     // diagonal win condition
     } else if (this.validateWinCondition(diagonals)) {
-      console.log(`diagonal victory!`);
+      console.log(`${winningPlayer} diagonal victory!`);
 
     // stalemate condition
     } else if (rows.reduce((acc, row) => row.every(a => a !== null))) {
@@ -64,17 +65,15 @@ export class Play extends React.Component {
     }
   }
 
-  submitMove() {
+  submitMove(row, column) {
     const { dispatch, game } = this.props;
-    const { row, column } = this.state;
-    const board = game.get('board');
-
     if (row !== null && column !== null) {
 
       // prevent player from selecting a square that is already used
       if (game.getIn(['board', row, column])) {
         alert('That square has already been selected. Try again.')
       } else {
+        this.setState({ row, column });
         dispatch(move(row, column));
       }
 
@@ -89,60 +88,20 @@ export class Play extends React.Component {
     const players = game.get('players');
     const rows = game.get('board');
     const boardCellNumber = 3;
-    const cellIndices = [...Array(boardCellNumber).keys()];
-
-    const drawRow = (row) => {
-      const center = cellIndices.map(ind => row.get(ind) || ' ')
-        .join(' | ');
-      return `| ${ center } |`;
-    };
-
-    const verticalBorder = cellIndices.reduce((string) => string.concat('----'), '-')
-    const rowHTML = [verticalBorder, ...rows.map(drawRow), verticalBorder]
-      .map((row, ind) => <p key={ ind }>{ row }</p>);
 
     return (
       <CoreLayout>
         <div>
           <h2>{ players.get(0) } vs. { players.get(1) }</h2>
           <p>{ `${players.get(game.get('currentPlayerIndex'))}'s turn` }</p>
-          <div>
-            { rowHTML }
+          <div className="board">
+            { rows.flatten().map((row, index) => (
+              <div
+                key={ index }
+                onClick={ () => this.submitMove(Math.floor(index / rows.size), index % rows.size) }
+              >{ row }</div>
+            )) }
           </div>
-
-          <div>
-            Select a row:
-            <select
-              value={ this.state.row }
-              onChange={ (event) => { this.setState({ row: Number(event.target.value) }) } }
-            >
-              {
-                cellIndices.map(ind => (
-                  <option value={ ind } key={ ind } >{ ind }</option>
-                ))
-              }
-            </select>
-          </div>
-
-          <div>
-            Select a column:
-            <select
-              value={ this.state.column }
-              onChange={ (event) => { this.setState({ column: event.target.value }) } }
-            >
-              {
-                cellIndices.map(ind => (
-                  <option value={ ind } key={ ind } >{ ind }</option>
-                ))
-              }
-            </select>
-          </div>
-
-          <input
-            className="submit"
-            type="submit"
-            onClick={ () => { this.submitMove(); } }
-          />
         </div>
       </CoreLayout>
     );

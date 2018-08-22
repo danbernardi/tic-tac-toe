@@ -1,0 +1,12 @@
+.board {
+  display: flex;
+  flex-wrap: wrap;
+  width: 30rem; }
+  .board > div {
+    width: 33.33%;
+    height: 10rem;
+    border: 0.1rem solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6rem; }
