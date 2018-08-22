@@ -9,3 +9,7 @@ export const addPlayer = playerName => ({
 export const resetGame = () => ({
   type: 'RESET_GAME'
 });
+
+export const rematch = () => ({
+  type: 'REMATCH'
+});

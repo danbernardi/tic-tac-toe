@@ -26,6 +26,11 @@ const game = (state = init, action) => {
     case 'RESET_GAME': {
       return state.set('players', fromJS([]));
     }
+
+    case 'REMATCH': {
+      return state.set('board', init.get('board'));
+    }
+
     default: {
       return state;
     }
