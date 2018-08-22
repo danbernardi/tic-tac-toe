@@ -49,8 +49,8 @@ export class Play extends React.Component {
       console.log(`${winningPlayer} diagonal victory!`);
 
     // stalemate condition
-    } else if (rows.reduce((acc, row) => row.every(a => a !== null))) {
-      console.log('statemate!');
+    } else if (rows.every((row) => row.every(a => a !== null))) {
+      console.log('stalemate!');
     }
 
     return false;
