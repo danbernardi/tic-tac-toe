@@ -51,8 +51,8 @@ Go for those that seem interesting or play to your strengths. If you consider yo
 
 The game doesn't really work, because we haven't built in victory or stalemate conditions.
 
-- [ ] Add a check and alert for victory.
-- [ ] Add a check and alert for basic stalemate -- when the game hasn't been won and there are no more moves.
+- [x] Add a check and alert for victory.
+- [x] Add a check and alert for basic stalemate -- when the game hasn't been won and there are no more moves.
 
 ### Bug Fixes
 
@@ -60,7 +60,7 @@ The game doesn't really work, because we haven't built in victory or stalemate c
 
 There are at least two bugs on the Play page.
 
-- [ ] Find them and fix them.
+- [x] Find them and fix them.
 - [ ] Add to the limited test suite to make sure that your changes fix the issues, and they don't happen again.
 
 ### Bonus Basics
@@ -76,20 +76,20 @@ There are at least two bugs on the Play page.
 
 Our board component is unstyled, and looks pretty awful right now.
 
-- [ ] Make it look nice. We've added some styles to the Welcome page, and you could use them as a guide.
+- [x] Make it look nice. We've added some styles to the Welcome page, and you could use them as a guide.
 
 #### Styling game alerts
 
 We got lazy, and set up a bad pattern for alerting players -- just using JavaScript's in-built `alert` function.
 
-- [ ] Change how we give user feedback, using whatever visual/coding patterns or tools you see fit.
+- [x] Change how we give user feedback, using whatever visual/coding patterns or tools you see fit.
 
 #### Responsive
 
 We forgot to do a responsive pass, and the header looks scrunched up on smaller screens.
 
-- [ ] Please make the existing app looks nice on mobile.
-- [ ] Make sure the new functionality you add looks good on both mobile and desktop.
+- [x] Please make the existing app looks nice on mobile.
+- [x] Make sure the new functionality you add looks good on both mobile and desktop.
 
 ### Added functionality
 
@@ -112,7 +112,7 @@ Tic-tac-toe is cool on its own, but we think it'd be even cooler if we could use
 
 Honestly, our Play UI sucks.
 
-- [ ] Improve it, however you see fit. (Some options: keyboard input, move on click, etc).
+- [x] Improve it, however you see fit. (Some options: keyboard input, move on click, etc).
 
 ### Go crazy
 
