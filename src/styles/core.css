@@ -206,6 +206,10 @@ body,
 .typ--default {
   font-size: 1.8rem;
   line-height: 1.22222222; }
+  @media only screen and (max-width: 540px) {
+    body,
+    .typ--default {
+      font-size: 1.5rem; } }
 
 h1,
 .typ--h1 {
@@ -216,20 +220,35 @@ h2,
 .typ--h2 {
   font-size: 4.2rem;
   line-height: 1; }
+  @media only screen and (max-width: 540px) {
+    h2,
+    .typ--h2 {
+      font-size: 3rem; } }
 
 h3,
 .typ--h3 {
   font-size: 3.6rem;
   line-height: 1.19444444; }
+  @media only screen and (max-width: 540px) {
+    h3,
+    .typ--h3 {
+      font-size: 2.6rem; } }
 
 h4,
 .typ--h4 {
   font-size: 2.6rem;
   line-height: 1.15384615; }
+  @media only screen and (max-width: 540px) {
+    h4,
+    .typ--h4 {
+      font-size: 2rem; } }
 
 .typ--b1 {
   font-size: 1.8rem;
   line-height: 1.22222222; }
+  @media only screen and (max-width: 540px) {
+    .typ--b1 {
+      font-size: 1.5rem; } }
 
 .typ--b2 {
   font-size: 1.5rem;
@@ -1028,6 +1047,9 @@ ol {
   border: 0.3rem solid #000000;
   display: inline-block;
   transition: background 0.2s ease-in-out, color 0.2s ease-in-out; }
+  @media only screen and (max-width: 767px) {
+    .btn {
+      padding: 0.434em 0.9em; } }
   .btn:hover {
     background: transparent;
     color: #000000; }

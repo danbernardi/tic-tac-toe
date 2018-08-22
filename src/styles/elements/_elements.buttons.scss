@@ -12,6 +12,10 @@
   border: 0.3rem solid $black;
   display: inline-block;
   transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+  // media queries
+  @include breakpoint($mobile-lg) {
+    padding: 0.434em 0.9em;
+  }
 
   &:hover { background: transparent; color: $black; }
 

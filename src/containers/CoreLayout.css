@@ -1,12 +1,8 @@
 .game__container {
   height: calc(100vh - 9rem);
   display: flex;
-  align-items: center; }
-  .game__container > div {
-    margin-top: -40rem; }
-    @media only screen and (max-width: 1400px) {
-      .game__container > div {
-        margin-top: -20rem; } }
-    @media only screen and (max-width: 767px) {
-      .game__container > div {
-        margin-top: -10rem; } }
+  align-items: center;
+  overflow: hidden; }
+  @media only screen and (max-width: 540px) {
+    .game__container {
+      height: calc(100vh - 6rem); } }

@@ -25,21 +25,36 @@
   @if $type == 'h2' {
     font-size: 4.2rem;
     line-height: 1;
+    // media queries
+    @include breakpoint($mobile-md) {
+      font-size: 3rem;
+    }
   }
 
   @if $type == 'h3' {
     font-size: 3.6rem;
     line-height: 1.19444444;
+    @include breakpoint($mobile-md) {
+      font-size: 2.6rem;
+    }
   }
 
   @if $type == 'h4' {
     font-size: 2.6rem;
     line-height: 1.15384615;
+    // media queries
+    @include breakpoint($mobile-md) {
+      font-size: 2rem;
+    }
   }
 
   @if $type == 'b1' {
     font-size: 1.8rem;
     line-height: 1.22222222;
+    // media queries
+    @include breakpoint($mobile-md) {
+      font-size: 1.5rem;
+    }
   }
 
   @if $type == 'b2' {

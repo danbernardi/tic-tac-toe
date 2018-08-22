@@ -19,5 +19,11 @@
   justify-content: space-between;
   background-color: #FAFAFA;
   border-bottom: 0.1rem solid #EFEFEF; }
+  @media only screen and (max-width: 540px) {
+    .header {
+      height: 6rem; } }
   .header img {
     width: 20rem; }
+    @media only screen and (max-width: 540px) {
+      .header img {
+        width: 12rem; } }

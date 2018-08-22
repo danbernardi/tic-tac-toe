@@ -8,8 +8,16 @@
   justify-content: space-between;
   background-color: $almostwhite;
   border-bottom: 0.1rem solid $offwhite;
+  // media queries
+  @include breakpoint($mobile-md) {
+    height: 6rem;
+  }
 
   img {
     width: 20rem;
+    // media queries
+    @include breakpoint($mobile-md) {
+      width: 12rem;
+    }
   }
 }
